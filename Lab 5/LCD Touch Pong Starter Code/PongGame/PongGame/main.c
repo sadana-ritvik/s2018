@@ -1,3 +1,5 @@
+#define F_CPU 16000000L
+
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdio.h>
@@ -32,15 +34,36 @@ int main(void)
 	lcd_command(CMD_DISPLAY_ON);
 	lcd_set_brightness(0x18);
 	write_buffer(buff);
-	_delay_ms(10000);
+	_delay_ms(1000);
 	clear_buffer(buff);
 	
-	while (1)
+	//while (1)
 	{
-		drawchar(buff,0,0,displayChar);
+// 		drawchar(buff,0,0,displayChar);
+// 		write_buffer(buff);
+// 		_delay_ms(5000);
+// 		displayChar++;
+// 		setpixel(buff,1,0, BLACK);
+// 		setpixel(buff,1,1, BLACK);
+// 		setpixel(buff,1,2, BLACK);
+// 		setpixel(buff,1,3, BLACK);
+// 		setpixel(buff,1,4, BLACK);
+// 		
+		//clearpixel(buff, 1,1);
+		
+// 		drawline(buff, 0, 0, 3, 0, BLACK);
+// 		drawline(buff, 127, 63, 0, 0, BLACK);
+// 		drawline(buff, 0, 0, 0, 3, BLACK);
+		
+// 		unsigned char word[] = "home" ;
+// 		drawstring(buff, 0, 2, word);
+		
+//		drawrect(buff, 0,0, 80, 60, BLACK);
+		fillrect(buff, 0,0, 80, 60, BLACK);
+
 		write_buffer(buff);
-		_delay_ms(5000);
-		displayChar++;
 	}
+	
+	
 }
 
