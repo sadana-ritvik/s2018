@@ -1,3 +1,5 @@
+#define F_CPU 16000000L
+
 #include <avr/io.h>
 #include <stdlib.h>
 #include <string.h>
@@ -600,7 +602,55 @@ void drawrect(uint8_t *buff,uint8_t x, uint8_t y, uint8_t w, uint8_t h,uint8_t c
 
 
 // function to draw a circle
+// algo taken from https://www.geeksforgeeks.org/mid-point-circle-drawing-algorithm/
 void drawcircle(uint8_t *buff,uint8_t x0, uint8_t y0, uint8_t r,uint8_t color) {
+	
+	uint8_t x = r, y = 0;
+	
+	// print the initial point
+	setpixel(buff, x + x0, y + y0, color);
+	
+	// When radius is zero only a single
+    // point will be printed
+	if(r >= 0)
+	{
+		setpixel(buff, x + x0, (-1)*y + y0, color);
+		setpixel(buff, y + x0, x + y0, color);
+		setpixel(buff, (-1)*y + x0, x + y0, color);
+	}
+	
+	uint8_t P = 1 - r;
+	
+	while (x > y)
+	{
+		y++;
+		
+		if(P <= 0)
+			P = P +2*y + 1;
+		
+		else
+		{
+			x--;
+			P = P + 2*y - 2*x + 1;
+		}
+		
+		if(x < y)
+			break;
+		
+		setpixel(buff, x + x0, y + y0, color);
+		setpixel(buff, (-1)*x + x0, y + y0, color);
+		setpixel(buff, x + x0, y + (-1)*y0, color);
+		setpixel(buff, (-1)*x + x0, (-1)*y + y0, color);
+		
+		if( x != y)
+		{
+			setpixel(buff, y + x0, x + y0, color);
+			setpixel(buff, (-1)*y + x0, x + y0, color);
+			setpixel(buff, y + x0, (-1)*x + y0, color);
+			setpixel(buff, (-1)*y + x0, (-1)*x + y0, color);
+		}
+		
+	}
 	
 }
 
